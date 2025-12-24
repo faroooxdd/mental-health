@@ -7,98 +7,139 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Lora:italic,wght@0,400;1,400&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            color: #334155;
-        }
+        :root { --teal-glow: rgba(20, 184, 166, 0.2); }
+        body { font-family: 'Inter', sans-serif; transition: background-color 0.4s, color 0.4s; }
         .serif { font-family: 'Lora', serif; }
+        
+        /* Glassmorphism */
         .glass {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.3);
         }
-        .mood-btn:hover { transform: translateY(-3px); transition: all 0.3s ease; }
-    </style>
-</head>
-<body class="min-h-screen">
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    <nav class="sticky top-0 z-50 glass px-8 py-4 flex justify-between items-center">
-        <div class="text-xl font-semibold tracking-tight text-teal-800">MindfulSpace</div>
-        <div class="space-x-8 text-sm font-medium">
-            <a href="#" class="hover:text-teal-600">Library</a>
-            <a href="#" class="hover:text-teal-600">Exercises</a>
-            <a href="#" class="bg-teal-700 text-white px-5 py-2 rounded-full hover:bg-teal-800 transition">Get Help</a>
+        /* Breathing Animation */
+        @keyframes box-breathe {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            25% { transform: scale(1.5); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 1; }
+            75% { transform: scale(1); opacity: 0.5; }
+        }
+        .breathe-circle { animation: box-breathe 16s infinite ease-in-out; display: none; }
+        .is-breathing .breathe-circle { display: block; }
+    </style>
+    <script>
+        tailwind.config = { darkMode: 'class' }
+    </script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
+
+    <nav class="sticky top-0 z-50 glass px-8 py-4 flex justify-between items-center shadow-sm">
+        <div class="text-xl font-bold tracking-tight text-teal-700 dark:text-teal-400">MindfulSpace</div>
+        <div class="flex items-center space-x-6">
+            <button onclick="document.documentElement.classList.toggle('dark')" class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 transition">
+                <span class="dark:hidden">🌙</span><span class="hidden dark:inline">☀️</span>
+            </button>
+            <a href="#help" class="bg-teal-700 text-white px-5 py-2 rounded-full hover:bg-teal-800 transition text-sm font-medium shadow-md">Get Help (Morocco)</a>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 py-12">
         
-        <section class="text-center mb-20">
-            <h1 class="serif text-5xl md:text-6xl text-slate-800 mb-6 italic">Your mind deserves <br>a quiet place.</h1>
-            <p class="text-lg text-slate-500 max-w-2xl mx-auto mb-8">
-                Explore guided tools, expert-backed insights, and simple daily practices designed to help you navigate life with more clarity.
+        <section class="text-center mb-16">
+            <h1 class="serif text-5xl md:text-7xl mb-6 italic dark:text-white">Your mind deserves <br>a quiet place.</h1>
+            <p class="text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+                Simple daily practices and real support for the Moroccan community.
             </p>
-            <button class="bg-teal-700 text-white px-8 py-4 rounded-full text-lg font-medium shadow-lg shadow-teal-200 hover:shadow-xl transition-all">
-                Start Your Journey
-            </button>
         </section>
 
-        <section class="glass rounded-3xl p-8 mb-16 text-center shadow-sm">
+        <section class="glass rounded-3xl p-8 mb-12 text-center shadow-lg border-teal-100">
             <h2 class="text-xl font-semibold mb-6">How are you feeling right now?</h2>
             <div class="flex justify-center gap-4 md:gap-8 flex-wrap">
-                <button class="mood-btn flex flex-col items-center bg-white p-4 rounded-2xl w-24 shadow-sm border border-slate-100">
-                    <span class="text-3xl mb-2">☁️</span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Low</span>
+                <button onclick="alert('It is okay to feel low. Try the breathing exercise below.')" class="hover:-translate-y-2 transition flex flex-col items-center bg-white dark:bg-slate-800 p-4 rounded-2xl w-24 shadow-sm border border-slate-100 dark:border-slate-700">
+                    <span class="text-3xl mb-2">☁️</span><span class="text-[10px] font-bold uppercase text-slate-400">Low</span>
                 </button>
-                <button class="mood-btn flex flex-col items-center bg-white p-4 rounded-2xl w-24 shadow-sm border border-slate-100">
-                    <span class="text-3xl mb-2">🌦️</span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Okay</span>
+                <button onclick="alert('Stability is a win. Keep going.')" class="hover:-translate-y-2 transition flex flex-col items-center bg-white dark:bg-slate-800 p-4 rounded-2xl w-24 shadow-sm border border-slate-100 dark:border-slate-700">
+                    <span class="text-3xl mb-2">🌦️</span><span class="text-[10px] font-bold uppercase text-slate-400">Okay</span>
                 </button>
-                <button class="mood-btn flex flex-col items-center bg-white p-4 rounded-2xl w-24 shadow-sm border border-slate-100">
-                    <span class="text-3xl mb-2">☀️</span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Great</span>
+                <button onclick="alert('Love that for you! Share that energy.')" class="hover:-translate-y-2 transition flex flex-col items-center bg-white dark:bg-slate-800 p-4 rounded-2xl w-24 shadow-sm border border-slate-100 dark:border-slate-700">
+                    <span class="text-3xl mb-2">☀️</span><span class="text-[10px] font-bold uppercase text-slate-400">Great</span>
                 </button>
-                <button class="mood-btn flex flex-col items-center bg-white p-4 rounded-2xl w-24 shadow-sm border border-slate-100">
-                    <span class="text-3xl mb-2">✨</span>
-                    <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Inspired</span>
+                <button onclick="alert('Channel that inspiration into something small today.')" class="hover:-translate-y-2 transition flex flex-col items-center bg-white dark:bg-slate-800 p-4 rounded-2xl w-24 shadow-sm border border-slate-100 dark:border-slate-700">
+                    <span class="text-3xl mb-2">✨</span><span class="text-[10px] font-bold uppercase text-slate-400">Inspired</span>
                 </button>
             </div>
         </section>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="md:col-span-2 glass p-8 rounded-3xl hover:border-teal-200 transition group">
-                <span class="text-teal-600 font-bold text-xs uppercase tracking-widest">Guided Exercise</span>
-                <h3 class="serif text-3xl mt-2 mb-4">Box Breathing</h3>
-                <p class="text-slate-500 mb-6">A simple 4-second technique to reset your nervous system and reduce immediate anxiety.</p>
-                <a href="#" class="text-teal-700 font-semibold group-hover:underline">Start Exercise →</a>
+            <div id="exercise-card" class="md:col-span-2 glass p-10 rounded-3xl relative overflow-hidden flex flex-col justify-center min-h-[300px]">
+                <div class="z-10">
+                    <span class="text-teal-600 dark:text-teal-400 font-bold text-xs uppercase tracking-widest">Active Exercise</span>
+                    <h3 class="serif text-4xl mt-2 mb-4">Box Breathing</h3>
+                    <p class="text-slate-500 dark:text-slate-400 mb-6 max-w-sm">Inhale 4s, Hold 4s, Exhale 4s, Hold 4s. Repeat until the noise stops.</p>
+                    <button onclick="toggleBreathe()" id="breathe-btn" class="bg-teal-700 text-white px-6 py-2 rounded-full hover:bg-teal-800 transition">Start Exercise</button>
+                </div>
+                <div class="absolute right-20 top-1/2 -translate-y-1/2">
+                    <div class="breathe-circle w-32 h-32 rounded-full bg-teal-500/20 border-2 border-teal-500"></div>
+                </div>
             </div>
             
-            <div class="bg-teal-50 p-8 rounded-3xl border border-teal-100">
-                <h3 class="text-xl font-semibold mb-2 text-teal-900">Journaling</h3>
-                <p class="text-sm text-teal-800/70 mb-6">Offload your thoughts in a safe, private space.</p>
-                <div class="h-32 bg-white/50 rounded-xl border border-dashed border-teal-300"></div>
-            </div>
-
-            <div class="glass p-8 rounded-3xl hover:border-teal-200 transition">
-                <h3 class="text-xl font-semibold mb-4">Sleep Stories</h3>
-                <p class="text-slate-500 text-sm">Gentle narratives designed to help you drift off naturally.</p>
-            </div>
-
-            <div class="md:col-span-2 glass p-8 rounded-3xl flex flex-col md:flex-row items-center gap-6">
-                <div class="bg-orange-100 text-orange-600 p-4 rounded-2xl text-2xl">💡</div>
-                <div>
-                    <h3 class="text-xl font-semibold">Daily Insight</h3>
-                    <p class="text-slate-500 italic">"Healing is not linear. Give yourself permission to have a slow day."</p>
-                </div>
+            <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-xl">
+                <h3 class="text-xl font-semibold mb-4 text-teal-400">Quick Tips</h3>
+                <ul class="text-sm space-y-4 text-slate-300">
+                    <li>🚫 <strong>Don't</strong> make big decisions when you're spiraling.</li>
+                    <li>🚫 <strong>Don't</strong> use social media if you feel "low."</li>
+                    <li>✅ <strong>Do</strong> splash your face with cold water.</li>
+                    <li>✅ <strong>Do</strong> go outside for 5 minutes.</li>
+                </ul>
             </div>
         </div>
 
+        <section id="help" class="mt-16 p-8 glass rounded-3xl border-2 border-teal-500/20">
+            <h2 class="serif text-3xl mb-6 italic">How to get help in Morocco</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="p-4 bg-white dark:bg-slate-900 rounded-xl">
+                    <p class="text-xs text-slate-400 uppercase font-bold">Police (Urgence)</p>
+                    <p class="text-xl font-bold text-teal-600">19</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-slate-900 rounded-xl">
+                    <p class="text-xs text-slate-400 uppercase font-bold">Ambulance</p>
+                    <p class="text-xl font-bold text-teal-600">15</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-slate-900 rounded-xl">
+                    <p class="text-xs text-slate-400 uppercase font-bold">Sourire de Reda</p>
+                    <p class="text-sm font-semibold">Crisis Support for Youth</p>
+                </div>
+                <div class="p-4 bg-white dark:bg-slate-900 rounded-xl">
+                    <p class="text-xs text-slate-400 uppercase font-bold">DabaDoc</p>
+                    <p class="text-sm font-semibold">Find a Therapist nearby</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="mt-20 py-10 text-center border-t border-slate-200 text-slate-400 text-sm">
-        <p>&copy; 2024 MindfulSpace. You are not alone.</p>
+    <footer class="mt-20 py-10 text-center border-t border-slate-200 dark:border-slate-800 text-slate-400 text-sm">
+        <p>Stay safe. You matter. &copy; 2025 MindfulSpace. Protected by 2025 Copyright.</p>
     </footer>
 
+    <script>
+        function toggleBreathe() {
+            const card = document.getElementById('exercise-card');
+            const btn = document.getElementById('breathe-btn');
+            card.classList.toggle('is-breathing');
+            if (card.classList.contains('is-breathing')) {
+                btn.innerText = "Stop Exercise";
+                btn.classList.replace('bg-teal-700', 'bg-red-500');
+            } else {
+                btn.innerText = "Start Exercise";
+                btn.classList.replace('bg-red-500', 'bg-teal-700');
+            }
+        }
+    </script>
 </body>
 </html>
